@@ -22,6 +22,9 @@ Neither file sets a nodeSelector, so pods can land on both the tainted node and 
 # Taint a node
 oc adm taint nodes <node> application=yellow:NoSchedule
 
+# List worker nodes and their taints
+oc get node -o custom-columns=NAME:.metadata.name,TAINT:.spec.taints -l node-role.kubernetes.io/worker
+
 # Optional: label the node so a nodeSelector can target it
 oc label node <node> application=yellow
 
