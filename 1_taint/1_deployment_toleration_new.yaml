@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: timecheck-deployment-lw
+  labels:
+    app: timecheck-lw
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: timecheck-lw
+  template:
+    metadata:
+      labels:
+        app: timecheck-lw
+    spec:
+      tolerations:
+        - key: application
+          value: yellow
+          effect: NoSchedule
+          operator: Equal
+      containers:
+        - name: timecheck-fastapi-lw
+          image: quay.io/rh_ee_swongpai/fast-localtime-check:lw-a23cdfe8a74471afabcbc2e3e81bfb69f3d474bf
+          ports:
+            - containerPort: 8000
+          securityContext:
+            seccompProfile:
+              type: RuntimeDefault
+            allowPrivilegeEscalation: false
+            runAsNonRoot: true
+            capabilities:
+              drop:
+                - ALL
