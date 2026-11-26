@@ -20,7 +20,7 @@ oc create secret tls sharded-custom-cert --cert=./default.crt --key=./default.ke
 ```
 
 ```bash
-oc patch ingresscontroller.operator sharded \
+oc patch ingresscontroller.operator lab-router \
   --type=merge \
   -p '{"spec":{"defaultCertificate":{"name":"sharded-custom-cert"}}}' \
   -n openshift-ingress-operator
